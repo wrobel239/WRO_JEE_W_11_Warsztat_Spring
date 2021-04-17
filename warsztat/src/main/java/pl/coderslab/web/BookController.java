@@ -2,8 +2,11 @@ package pl.coderslab.web;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.book.Book;
+import pl.coderslab.book.BookService;
 import pl.coderslab.book.MemoryBookService;
 
 import java.util.List;
@@ -11,10 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/books")
 public class BookController {
-    private MemoryBookService memoryBookService;
+    // dla wersji bez Interfejsu
+//    private MemoryBookService memoryBookService;
+    private BookService memoryBookService;
 
     @Autowired
-    public BookController(MemoryBookService memoryBookService) {
+    public BookController(BookService memoryBookService) {
         this.memoryBookService = memoryBookService;
     }
 
@@ -28,19 +33,51 @@ public class BookController {
         memoryBookService.addBook(book);
     }
 
+    // rozwiązanie pierwotne
+//    @GetMapping ("/{id}")
+//    public Book showBook(@PathVariable long id){
+//        return memoryBookService.findBook(id);
+//    }
+
     @GetMapping ("/{id}")
     public Book showBook(@PathVariable long id){
-        return memoryBookService.findBook(id);
+        return memoryBookService.get(id).orElseThrow(() ->{
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "entity not found"
+            );
+        });
     }
+
+//    rozwiązanie pierwotne
+//    @PutMapping("")
+//    public void editBook(@RequestBody Book book){
+//        memoryBookService.editBook(book);
+//    }
 
     @PutMapping("")
     public void editBook(@RequestBody Book book){
-        memoryBookService.editBook(book);
+        boolean ifUpdated = memoryBookService.updateBook(book);
+        if (!ifUpdated){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Not updated: entity not found"
+            );
+        }
     }
+
+//    rozwiązanie pierwotne
+//    @DeleteMapping("/{id}")
+//    public void deleteBook(@PathVariable long id){
+//        memoryBookService.deleteBook(id);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable long id){
-        memoryBookService.deleteBook(id);
+        boolean ifDeleted = memoryBookService.removeBook(id);
+        if (!ifDeleted){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Not deleted: entity not found"
+            );
+        }
     }
 
     @RequestMapping("/helloBook")
