@@ -1,6 +1,7 @@
 package pl.coderslab.book;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "books")
@@ -9,10 +10,15 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String isbn;
+    @NotBlank
     private String title;
+    @NotBlank
     private String author;
+    @NotBlank
     private String publisher;
+    @NotBlank
     private String type;
 
     public Book() {
