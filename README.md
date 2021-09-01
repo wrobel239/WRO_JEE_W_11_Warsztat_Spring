@@ -15,6 +15,11 @@
 * updating the book data with the put method
 * deleting a book with a given id with the delete method
 2. Application using Hibernate and the MySQL database:
+* displaying a list of books
+* adding a book
+* editing a book
+* deleting a book
+* displaying a specific book
 # Used technologies
 * Java 11
 * Spring MVC
@@ -22,3 +27,12 @@
 * Hibernate
 * MySQL
 * Jsp
+# Views available in the application
+* List of books
+![screen2](https://user-images.githubusercontent.com/72383528/131696843-4586cf1a-c6e2-46b9-856e-97bf58f680e3.png)
+
+* Adding/editing form
+![screen1](https://user-images.githubusercontent.com/72383528/131697112-a673225d-8507-4aa1-8b84-2865c0d764ce.png)
+
+* Book details
+![screen3](https://user-images.githubusercontent.com/72383528/131697228-47d0768b-f0a7-45a8-8448-65d242f58e0a.png)
